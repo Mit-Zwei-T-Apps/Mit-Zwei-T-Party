@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mit Zwei T Party</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<button id="fsbtn" class="chip" data-i18n="h.fs">⛶ Fullscreen</button>
+
+<!-- Lobby -->
+<section id="screen-lobby" class="screen">
+  <div>
+    <div class="logo">Mit Zwei T Party</div>
+    <div class="tag" data-i18n="tagline"></div>
+    <div class="panel">
+      <div class="settings">
+        <span class="lbl" data-i18n="h.rounds">Rounds:</span>
+        <button class="chip rounds" data-r="4">4</button>
+        <button class="chip rounds" data-r="6">6</button>
+        <button class="chip rounds" data-r="8">8</button>
+        <button class="chip rounds" data-r="10">10</button>
+        <button class="chip rounds" data-r="12">12</button>
+        <span style="flex-basis:100%"></span>
+        <button class="chip" id="guide">🎵</button>
+        <span class="lbl" style="margin-left:14px" data-i18n="h.lang">Language:</span>
+        <button class="chip lang" data-l="en">English</button>
+        <button class="chip lang" data-l="de">Deutsch</button>
+      </div>
+      <div class="plist" id="plist"></div>
+      <button class="btn" id="btn-start" disabled data-i18n="h.start">Start game</button>
+      <div class="hintp" style="color:var(--muted);margin-top:10px;font-size:.95rem" data-i18n="h.hint"></div>
+    </div>
+  </div>
+  <div class="panel" style="text-align:center">
+    <div style="color:var(--muted)" data-i18n="h.room">Room code</div>
+    <div class="code" id="code">····</div>
+    <img id="qr" alt="QR code to join" style="margin-top:14px">
+    <div class="joinurl" id="joinurl"></div>
+    <div class="warn hidden" id="httpwarn" data-i18n-html="h.httpwarn"></div>
+  </div>
+  <div class="footer">Matteo Mit Zwei T, with Claude</div>
+</section>
+
+<!-- Brett -->
+<section id="screen-board" class="screen hidden">
+  <div id="boardwrap">
+    <canvas id="board"></canvas>
+    <div id="boardInfo"></div>
+    <div id="banner"></div>
+  </div>
+  <aside id="side"></aside>
+</section>
+
+<!-- Minispiel -->
+<section id="screen-mini" class="screen hidden">
+  <div id="m-intro" class="mview hidden">
+    <div class="mdesc" style="color:var(--muted)" id="mi-kicker" data-i18n="h.minigame">MINIGAME</div>
+    <div class="mtitle" id="mi-title"></div>
+    <div class="mdesc" id="mi-desc"></div>
+    <div class="mdesc" id="mi-ref" style="font-weight:900"></div>
+    <div class="readyrow" id="mi-ready"></div>
+    <button class="btn ghost hidden" id="mi-skip" data-i18n="h.skip"></button>
+  </div>
+  <div id="m-tap" class="mview hidden">
+    <div class="mtitle" data-i18n="h.taptitle"></div>
+    <div class="timer" id="tap-timer">10</div>
+    <div class="tapbars" id="tap-bars"></div>
+  </div>
+  <div id="m-reaction" class="mview hidden">
+    <div class="mdesc" id="re-round">Runde 1 / 3</div>
+    <div class="gosign" id="re-sign">…</div>
+    <div class="mdesc" data-i18n="h.react.hint"></div>
+  </div>
+  <div id="m-dance" class="mview hidden" style="padding:0"><canvas id="dance-cv" class="full"></canvas></div>
+  <div id="m-sing" class="mview hidden" style="padding:0"><canvas id="sing-cv" class="full"></canvas></div>
+  <div id="m-results" class="mview hidden">
+    <div class="mtitle" id="mr-title" data-i18n="h.result">Result</div>
+    <div class="rtable" id="mr-rows"></div>
+  </div>
+  <div id="countdown" class="hidden"></div>
+</section>
+
+<!-- Ende -->
+<section id="screen-end" class="screen hidden">
+  <div class="logo" data-i18n="h.podium">PODIUM</div>
+  <div class="podium" id="podium"></div>
+  <div class="bonus" id="bonus"></div>
+  <div style="display:flex;gap:14px">
+    <button class="btn" id="btn-again" data-i18n="h.again"></button>
+    <button class="btn ghost" id="btn-new" data-i18n="h.newroom"></button>
+  </div>
+</section>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/songs.js"></script>
+<script src="/i18n.js"></script>
+<script src="/common.js"></script>
+<script src="/audio.js"></script>
+<script src="/host.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "name": "mit-zwei-t-party",
+  "version": "1.0.0",
+  "description": "Mit Zwei T Party – board game with dance battle and sing battle (host screen + phones)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "PF_FAST=1 PORT=3999 node server.js & sleep 1 && PORT=3999 node test/bots.js; kill %1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@mediapipe/tasks-vision": "^1.2.3",
+    "express": "^5.3.0",
+    "qrcode": "^1.5.4",
+    "socket.io": "^4.8.4"
+  },
+  "devDependencies": {
+    "socket.io-client": "^4.8.4"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  }
+}

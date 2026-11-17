@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#1d1147">
+<title>Mit Zwei T Party</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body class="phone">
+<div id="app">
+
+  <div id="v-join" class="pview hidden">
+    <div class="logo" style="font-size:2.1rem">Mit Zwei T Party</div>
+    <input id="in-code" class="field code" maxlength="4" data-i18n-ph="p.code" placeholder="CODE" autocomplete="off" autocapitalize="characters">
+    <input id="in-name" class="field" maxlength="14" data-i18n-ph="p.name" placeholder="Your name" autocomplete="off">
+    <div class="avgrid" id="avgrid"></div>
+    <button class="btn bigbtn" id="btn-join" style="padding:18px" data-i18n="p.join">Join</button>
+    <div class="err" id="join-err"></div>
+  </div>
+
+  <div id="v-wait" class="pview hidden">
+    <div class="me" id="me-wait"></div>
+    <div class="big" data-i18n="p.in"></div>
+    <div class="hintp" data-i18n="p.soon"></div>
+    <div style="width:100%">
+      <div class="hintp" style="margin-bottom:6px" data-i18n="p.dancewith"></div>
+      <div class="modes" id="modes">
+        <button data-m="motion" data-i18n-html="p.m.motion"></button>
+        <button data-m="camera" data-i18n-html="p.m.camera"></button>
+        <button data-m="tap" data-i18n-html="p.m.tap"></button>
+      </div>
+      <div class="hintp" id="mode-hint" style="margin-top:8px"></div>
+    </div>
+    <div class="err" id="sec-warn"></div>
+  </div>
+
+  <div id="v-board" class="pview top hidden">
+    <div class="me" id="me-board"></div>
+    <div class="pview" style="width:100%" id="board-body"></div>
+  </div>
+
+  <div id="v-intro" class="pview hidden">
+    <div class="hintp" data-i18n="p.minigame">MINIGAME</div>
+    <div class="big" id="in-title" style="color:var(--yellow)"></div>
+    <div id="in-desc"></div>
+    <div class="hintp" id="in-ref"></div>
+    <button class="btn bigbtn" id="btn-ready">Ready!</button>
+    <div class="hintp" id="in-status"></div>
+  </div>
+
+  <div id="v-tap" class="pview hidden" style="width:100%">
+    <div class="score" id="tap-count">0</div>
+    <div class="hintp" id="tap-info"></div>
+    <button id="tapBtn" data-i18n="p.tap">TAP!</button>
+  </div>
+
+  <div id="v-react" class="pview hidden" style="width:100%">
+    <div class="hintp" id="re-info"></div>
+    <button id="reactBtn"></button>
+  </div>
+
+  <div id="v-dance" class="pview top hidden" style="width:100%">
+    <div class="hintp" id="dn-info"></div>
+    <div class="pose"><canvas id="poseCv" width="220" height="220" style="width:130px;height:130px"></canvas><div><div class="score" id="dn-score">0</div></div></div>
+    <div class="judge" id="dn-judge"></div>
+    <div class="camwrap hidden" id="camwrap"><video id="cam" playsinline muted></video><canvas id="camov" width="360" height="480"></canvas></div>
+    <button id="dnTap" class="btn bigbtn hidden" data-i18n="p.d.tapbtn"></button>
+    <div class="hintp" id="dn-hint"></div>
+  </div>
+
+  <div id="v-sing" class="pview top hidden" style="width:100%">
+    <div class="hintp" id="sg-info"></div>
+    <div class="score" id="sg-score">0 %</div>
+    <div class="meter"><i id="sg-meter"></i></div>
+    <canvas id="pitchView" width="480" height="180"></canvas>
+    <div class="lyric" id="sg-lyric"></div>
+    <div class="hintp" id="sg-hint"></div>
+  </div>
+
+  <div id="v-result" class="pview hidden">
+    <div class="hintp" data-i18n="p.result"></div>
+    <div class="big" id="rs-rank" style="font-size:4rem"></div>
+    <div id="rs-label" style="font-size:1.4rem"></div>
+    <div class="score" id="rs-coins"></div>
+    <div class="hintp" data-i18n="p.look"></div>
+  </div>
+
+  <div id="v-end" class="pview hidden">
+    <div class="big" id="en-title" data-i18n="p.over"></div>
+    <div class="me" id="me-end"></div>
+    <div class="hintp" data-i18n="p.thanks"></div>
+  </div>
+
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/songs.js"></script>
+<script src="/i18n.js"></script>
+<script src="/common.js"></script>
+<script src="/play.js"></script>
+</body>
+</html>
