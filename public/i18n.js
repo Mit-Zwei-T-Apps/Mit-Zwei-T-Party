@@ -11,7 +11,7 @@
       // Host – Lobby
       'h.fs': '⛶ Fullscreen', 'h.rounds': 'Rounds:', 'h.guide': '🎵 Melody guide: {s}', 'h.lang': 'Language:',
       'h.scan': 'Scan the QR code with your phone …', 'h.start': 'Start game',
-      'h.hint': 'More fun with 2+ players · max. 8 players', 'h.room': 'Room code',
+      'h.hint': 'More fun with 2+ players · max. {n} players', 'h.room': 'Room code',
       'h.httpwarn': '⚠️ Phones only allow microphone, camera and motion sensor over <b>HTTPS</b>. For the sing and dance modes please host via an https address (see README).',
       // Host – Brett
       'h.legend': '⭐ costs {n} 🪙 · Blue +3 · Red −3 · ? Event', 'h.round': 'Round {r} / {n}', 'h.rolling': 'is rolling …',
@@ -23,6 +23,7 @@
       'h.result': 'Result', 'h.podium': 'PODIUM', 'h.again': 'Play again', 'h.newroom': 'New room', 'h.more': 'Next up:',
       'j.perfect': 'PERFECT!', 'j.good': 'Good!', 'j.ok': 'Okay', 'j.miss': 'Miss',
       // Handy
+      'p.edit': '✏️ Edit name & avatar', 'p.save': 'Save', 'p.leave': 'Leave', 'p.leaveq': 'Leave the game?', 'p.closed': 'The host closed the room.',
       'p.code': 'CODE', 'p.name': 'Your name', 'p.join': 'Join', 'p.codeerr': 'Please enter the 4-letter code.', 'p.joinfail': 'Could not join.',
       'p.in': 'You\'re in! 🎉', 'p.soon': 'The game starts soon on the big screen.', 'p.dancewith': 'How you dance:',
       'p.m.motion': '📱<br>Motion<br><small>phone in hand</small>', 'p.m.camera': '📷<br>Camera<br><small>prop up phone</small>', 'p.m.tap': '👆<br>Tap<br><small>in rhythm</small>',
@@ -64,7 +65,7 @@
       on: 'an', off: 'aus', player: 'Spieler {n}',
       'h.fs': '⛶ Vollbild', 'h.rounds': 'Runden:', 'h.guide': '🎵 Melodie-Hilfe: {s}', 'h.lang': 'Sprache:',
       'h.scan': 'Scanne den QR-Code mit dem Handy …', 'h.start': 'Spiel starten',
-      'h.hint': 'Ab 2 Spielern macht es am meisten Spaß · maximal 8 Spieler', 'h.room': 'Raum-Code',
+      'h.hint': 'Ab 2 Spielern macht es am meisten Spaß · maximal {n} Spieler', 'h.room': 'Raum-Code',
       'h.httpwarn': '⚠️ Mikrofon, Kamera und Bewegungssensor funktionieren auf Handys nur über <b>HTTPS</b>. Für Sing- und Tanz-Modus bitte per https-Adresse hosten (siehe README).',
       'h.legend': '⭐ kostet {n} 🪙 · Blau +3 · Rot −3 · ? Ereignis', 'h.round': 'Runde {r} / {n}', 'h.rolling': 'würfelt …',
       'h.canbuy': 'kann einen ⭐ kaufen ({n} 🪙)', 'h.nextmini': 'Nächstes Minispiel …', 'h.rolls': '{name} würfelt …',
@@ -73,6 +74,7 @@
       'h.now': 'JETZT!', 'h.react.hint': 'Tippe erst, wenn der Bildschirm grün wird!', 'h.soon': 'gleich geht\'s los!', 'h.next': 'DANACH',
       'h.result': 'Ergebnis', 'h.podium': 'SIEGEREHRUNG', 'h.again': 'Nochmal spielen', 'h.newroom': 'Neuer Raum', 'h.more': 'Weiter:',
       'j.perfect': 'PERFEKT!', 'j.good': 'Gut!', 'j.ok': 'Okay', 'j.miss': 'Daneben',
+      'p.edit': '✏️ Name & Figur ändern', 'p.save': 'Speichern', 'p.leave': 'Verlassen', 'p.leaveq': 'Spiel verlassen?', 'p.closed': 'Der Host hat den Raum geschlossen.',
       'p.code': 'CODE', 'p.name': 'Dein Name', 'p.join': 'Beitreten', 'p.codeerr': 'Bitte den 4-stelligen Code eingeben.', 'p.joinfail': 'Beitritt fehlgeschlagen.',
       'p.in': 'Du bist drin! 🎉', 'p.soon': 'Gleich startet das Spiel auf dem großen Bildschirm.', 'p.dancewith': 'So tanzt du mit:',
       'p.m.motion': '📱<br>Bewegung<br><small>Handy in der Hand</small>', 'p.m.camera': '📷<br>Kamera<br><small>Handy aufstellen</small>', 'p.m.tap': '👆<br>Tippen<br><small>im Takt</small>',

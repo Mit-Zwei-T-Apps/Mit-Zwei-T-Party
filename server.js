@@ -17,7 +17,7 @@ const PORT = parseInt(process.env.PORT || process.env.SERVER_PORT, 10) || 3000; 
 const PUBLIC_URL = (process.env.PUBLIC_URL || '').replace(/\/+$/, '');
 const BOARD_SIZE = 28;
 const STAR_COST = 10;
-const MAX_PLAYERS = 8;
+const MAX_PLAYERS = Math.max(2, Math.min(16, parseInt(process.env.MAX_PLAYERS, 10) || 12));
 const TIMING = Object.assign({ stepMs: 420, effectMs: 1800, introMs: 6000, resultMs: 7000 },
   process.env.PF_FAST ? { stepMs: 5, effectMs: 20, introMs: 50, resultMs: 50 } : {});
 
@@ -85,7 +85,7 @@ function publicState(room) {
   return {
     code: room.code, phase: room.phase, round: room.round, rounds: room.settings.rounds, settings: room.settings,
     players: room.players.map(pub), board: room.board, starPos: room.starPos, turnId: room.turnId,
-    prompt: room.prompt, mini: room.mini, starCost: STAR_COST
+    prompt: room.prompt, mini: room.mini, starCost: STAR_COST, maxPlayers: MAX_PLAYERS
   };
 }
 function emitState(room) { io.to(room.code).emit('state', publicState(room)); }
@@ -317,6 +317,14 @@ async function finale(room) {
 }
 
 // ---------------------------------------------------------------- Sockets
+const HOST_GRACE_MS = parseInt(process.env.HOST_GRACE_MS, 10) || 8000;
+function closeRoom(room) {
+  if (room.dead) return;
+  room.dead = true;
+  io.to(room.code).emit('closed');
+  try { skipAll(room); } catch (e) {}
+  rooms.delete(room.code);
+}
 function sanitizeName(s) { return String(s || '').replace(/[<>&"']/g, '').trim().slice(0, 14); }
 
 io.on('connection', (socket) => {
@@ -355,6 +363,7 @@ io.on('connection', (socket) => {
     room.phase = 'board';
     runGame(room).catch((e) => console.error('Spielfehler', e));
   });
+  socket.on('host:close', () => { const room = hostRoom(); if (room) closeRoom(room); });
   socket.on('host:skip', () => { const room = hostRoom(); if (room) skipAll(room); });
   socket.on('host:kick', (id) => {
     const room = hostRoom(); if (!room || room.phase !== 'lobby') return;
@@ -376,6 +385,7 @@ io.on('connection', (socket) => {
     const room = rooms.get(String(d.code || '').toUpperCase().trim());
     if (!room) return cb({ ok: false, error: I18N.t(d.lang === 'de' ? 'de' : 'en', 's.noroom') });
     let p = d.playerId ? playerById(room, String(d.playerId)) : null;
+    if (p && p.left) p = null;
     if (p) {
       p.socketId = socket.id; p.connected = true;
     } else {
@@ -399,6 +409,28 @@ io.on('connection', (socket) => {
     const room = rooms.get(socket.data.code);
     return { room, p: room && playerById(room, socket.data.playerId) };
   }
+  socket.on('player:edit', (d, cb) => {
+    cb = typeof cb === 'function' ? cb : () => {};
+    const { room, p } = ctx(); if (!p || room.phase !== 'lobby') return cb({ ok: false });
+    d = d || {};
+    const name = sanitizeName(d.name); if (name) p.name = name;
+    if (PF.AVATARS.includes(d.avatar) && !room.players.some((x) => x !== p && x.avatar === d.avatar)) p.avatar = d.avatar;
+    emitState(room); cb({ ok: true });
+  });
+  socket.on('player:leave', () => {
+    const { room, p } = ctx(); if (!p) return;
+    socket.data = { role: 'left' };
+    if (room.phase === 'lobby') {
+      room.players = room.players.filter((x) => x !== p);
+    } else {
+      p.left = true; p.connected = false; p.socketId = null;
+      if (room.phase === 'minigame' && room.mini) {
+        if (room.mini.step === 'intro' && connectedPlayers(room).every((x) => room.ready.has(x.id))) resolveWait(room, 'ready', true);
+        if (room.mini.step === 'play' && connectedPlayers(room).every((x) => room.results[x.id])) resolveWait(room, 'results', true);
+      }
+    }
+    emitState(room);
+  });
   socket.on('player:mode', (m) => {
     const { room, p } = ctx(); if (!p) return;
     if (['camera', 'motion', 'tap'].includes(m)) { p.mode = m; emitState(room); }
@@ -436,7 +468,11 @@ io.on('connection', (socket) => {
     const d = socket.data; if (!d) return;
     const room = rooms.get(d.code); if (!room) return;
     if (d.role === 'host') {
-      if (room.hostSocketId === socket.id) room.hostSeen = Date.now();
+      if (room.hostSocketId === socket.id) {
+        room.hostSeen = Date.now();
+        // Kurze Gnadenfrist (Seite neu laden / Netz-Aussetzer), danach werden alle gekickt
+        setTimeout(() => { if (rooms.get(room.code) === room && room.hostSocketId === socket.id) closeRoom(room); }, HOST_GRACE_MS);
+      }
       return;
     }
     const p = playerById(room, d.playerId);

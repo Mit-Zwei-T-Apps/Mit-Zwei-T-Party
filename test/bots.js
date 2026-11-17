@@ -12,10 +12,11 @@ host.on('connect', () => host.emit('host:create', (r) => {
   code = r.code; log('Room', code, 'lang', process.env.PF_LANG || 'en');
   host.emit('host:settings', { rounds: 4, lang: process.env.PF_LANG || 'en' });
   let joined = 0;
-  ['Anna', 'Ben', 'Cleo'].forEach((n, i) => {
+  const NAMES = ['Anna','Ben','Cleo','Dana','Emil','Fiona','Gero','Hanna','Ivo','Jule','Karl','Lena','Max','Nora','Otto','Pia'].slice(0, parseInt(process.env.PF_BOTS || '3', 10));
+  NAMES.forEach((n, i) => {
     const s = io(URL); const bot = { s, n, id: null };
     s.on('connect', () => s.emit('join', { code, name: n }, (rr) => {
-      if (!rr.ok) throw new Error(rr.error); bot.id = rr.playerId; if (++joined === 3) setTimeout(() => host.emit('host:start'), 200);
+      if (!rr.ok) throw new Error(rr.error); bot.id = rr.playerId; if (++joined === NAMES.length) setTimeout(() => host.emit('host:start'), 200);
     }));
     s.on('state', (st) => {
       if (st.prompt && st.prompt.playerId === bot.id) {

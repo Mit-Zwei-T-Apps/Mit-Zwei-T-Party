@@ -130,8 +130,8 @@
   function songMs(song) { return Math.round(songBeats(song) * 60000 / song.bpm); }
   function danceMs(dance) { return Math.round(danceBeats(dance) * 60000 / dance.bpm); }
 
-  const AVATARS = ['🦊', '🐸', '🐙', '🦄', '🐼', '🐯', '🦖', '🐧', '🐝', '🦉', '🐳', '🦋'];
-  const COLORS = ['#ff4d6d', '#ffb703', '#2ec4b6', '#8338ec', '#3a86ff', '#fb5607', '#06d6a0', '#f72585'];
+  const AVATARS = ['🦊', '🐸', '🐙', '🦄', '🐼', '🐯', '🦖', '🐧', '🐝', '🦉', '🐳', '🦋', '🦁', '🐨', '🐢', '🦈'];
+  const COLORS = ['#ff4d6d', '#ffb703', '#2ec4b6', '#8338ec', '#3a86ff', '#fb5607', '#06d6a0', '#f72585', '#9ef01a', '#00bbf9', '#ff9e00', '#c77dff', '#80ed99', '#e5989b', '#4cc9f0', '#b5179e'];
 
   return {
     nm: nm, SONGS: SONGS, MOVES: MOVES, DANCES: DANCES, AVATARS: AVATARS, COLORS: COLORS,

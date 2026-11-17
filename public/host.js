@@ -42,6 +42,7 @@
 
   socket.on('state', (s) => {
     const prev = S; S = s;
+    document.body.classList.toggle('many', s.players.length > 8);
     if (curLang !== L()) { curLang = L(); I18N.apply(document, curLang); }
     s.players.forEach((p) => {
       if (!pAnim[p.id]) pAnim[p.id] = { cur: p.pos, target: p.pos };
@@ -66,6 +67,7 @@
       '<div class="pchip ' + (p.connected ? '' : 'off') + '" style="border-color:' + p.color + '"><span class="av">' + p.avatar + '</span>' + esc(p.name) +
       '<span class="mode">' + (modeIcon[p.mode] || '') + '</span></div>').join('') : '<span style="color:var(--muted)">' + T('h.scan') + '</span>';
     $('btn-start').disabled = !S.players.length;
+    $('hint').textContent = T('h.hint', { n: S.maxPlayers });
     document.querySelectorAll('.rounds').forEach((b) => b.classList.toggle('on', +b.dataset.r === S.settings.rounds));
     $('guide').textContent = T('h.guide', { s: T(S.settings.melodyGuide ? 'on' : 'off') });
     document.querySelectorAll('.lang').forEach((b) => b.classList.toggle('on', b.dataset.l === L()));
@@ -76,7 +78,7 @@
   $('guide').addEventListener('click', () => socket.emit('host:settings', { melodyGuide: !S.settings.melodyGuide }));
   $('btn-start').addEventListener('click', () => { Sfx.init(); socket.emit('host:start'); });
   $('btn-again').addEventListener('click', () => socket.emit('host:again'));
-  $('btn-new').addEventListener('click', () => { sessionStorage.removeItem('pf-host'); location.reload(); });
+  $('btn-new').addEventListener('click', () => { socket.emit('host:close'); sessionStorage.removeItem('pf-host'); location.reload(); });
   $('mi-skip').addEventListener('click', () => socket.emit('host:skip'));
   $('fsbtn').addEventListener('click', () => {
     Sfx.init();
@@ -147,8 +149,10 @@
         const a = pAnim[p.id];
         const i0 = Math.floor(a.cur), f = a.cur - i0;
         const A = tilePos(i0, N), B = tilePos(i0 + 1, N);
-        const x = A.x + (B.x - A.x) * f + (idx - (list.length - 1) / 2) * r * 0.95;
-        const y = A.y + (B.y - A.y) * f - r * 0.55 + (S.turnId === p.id ? Math.sin(t / 120) * 4 : 0);
+        const per = 4, row = Math.floor(idx / per), inRow = Math.min(per, list.length - row * per), col = idx % per;
+        const rows = Math.ceil(list.length / per);
+        const x = A.x + (B.x - A.x) * f + (col - (inRow - 1) / 2) * r * 0.95;
+        const y = A.y + (B.y - A.y) * f - r * 0.55 + (row - (rows - 1) / 2) * r * 0.85 + (S.turnId === p.id ? Math.sin(t / 120) * 4 : 0);
         g.beginPath(); g.arc(x, y, r * 0.78, 0, Math.PI * 2);
         g.fillStyle = p.color; g.fill(); g.lineWidth = 3; g.strokeStyle = '#fff'; g.stroke();
         g.font = Math.round(r * 1.05) + 'px sans-serif'; g.fillStyle = '#fff'; g.fillText(p.avatar, x, y + 2);

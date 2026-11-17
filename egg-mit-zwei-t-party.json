@@ -1,92 +1,102 @@
 {
-    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
-    "meta": {
-        "version": "PTDL_v2",
-        "update_url": null
+  "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+  "meta": {
+    "version": "PTDL_v2",
+    "update_url": null
+  },
+  "exported_at": "2026-11-17T21:00:00+01:00",
+  "name": "Mit Zwei T Party",
+  "author": "matteomitzweit@proton.me",
+  "description": "Party game with a board game, dance battle and sing battle. One big screen plus phones. Created by Matteo Mit Zwei T, with Claude.",
+  "features": null,
+  "docker_images": {
+    "Node.js 20": "ghcr.io/parkervcp/yolks:nodejs_20"
+  },
+  "file_denylist": [],
+  "startup": "if [[ -d .git ]] && [[ \"{{AUTO_UPDATE}}\" == \"1\" ]]; then git pull; fi; if [ -f package.json ]; then npm install --omit=dev; fi; node server.js",
+  "config": {
+    "files": "{}",
+    "startup": "{\"done\": \"running on port\"}",
+    "logs": "{}",
+    "stop": "^C"
+  },
+  "scripts": {
+    "installation": {
+      "script": "#!/bin/bash\n# Mit Zwei T Party - installation script\napt update\napt install -y git ca-certificates\nmkdir -p /mnt/server\ncd /mnt/server\n\nADDRESS=\"${GIT_ADDRESS}\"\nif [ -n \"${GIT_USERNAME}\" ] && [ -n \"${GIT_ACCESS_TOKEN}\" ]; then\n  ADDRESS=\"${GIT_ADDRESS/https:\\/\\//https://${GIT_USERNAME}:${GIT_ACCESS_TOKEN}@}\"\nfi\n\nif [ -z \"$(ls -A /mnt/server)\" ]; then\n  echo \"Cloning ${GIT_ADDRESS} (branch ${BRANCH}) ...\"\n  git clone --branch \"${BRANCH}\" \"${ADDRESS}\" .\nelse\n  echo \"Directory not empty - pulling latest changes ...\"\n  git pull\nfi\n\nif [ -f package.json ]; then\n  npm install --omit=dev\nfi\necho \"Installation finished.\"\n",
+      "container": "node:20-bookworm-slim",
+      "entrypoint": "bash"
+    }
+  },
+  "variables": [
+    {
+      "name": "Git Repo Address",
+      "description": "HTTPS address of the Git repository.",
+      "env_variable": "GIT_ADDRESS",
+      "default_value": "https://github.com/Mit-Zwei-T-Apps/Mit-Zwei-T-Party.git",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|max:200",
+      "field_type": "text"
     },
-    "exported_at": "2026-11-17T21:00:00+01:00",
-    "name": "Mit Zwei T Party",
-    "author": "matteomitzweit@proton.me",
-    "description": "Party game with a board game, dance battle and sing battle. One big screen plus phones. Created by Matteo Mit Zwei T, with Claude.",
-    "features": null,
-    "docker_images": {
-        "Node.js 20": "ghcr.io/parkervcp/yolks:nodejs_20"
+    {
+      "name": "Install Branch",
+      "description": "Branch to install and update from.",
+      "env_variable": "BRANCH",
+      "default_value": "main",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|max:50",
+      "field_type": "text"
     },
-    "file_denylist": [],
-    "startup": "if [[ -d .git ]] && [[ \"{{AUTO_UPDATE}}\" == \"1\" ]]; then git pull; fi; if [ -f package.json ]; then npm install --omit=dev; fi; node server.js",
-    "config": {
-        "files": "{}",
-        "startup": "{\"done\": \"running on port\"}",
-        "logs": "{}",
-        "stop": "^C"
+    {
+      "name": "Auto Update",
+      "description": "Pull the latest version from Git on every start (1 = yes, 0 = no).",
+      "env_variable": "AUTO_UPDATE",
+      "default_value": "1",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
     },
-    "scripts": {
-        "installation": {
-            "script": "#!/bin/bash\n# Mit Zwei T Party - installation script\napt update\napt install -y git ca-certificates\nmkdir -p /mnt/server\ncd /mnt/server\n\nADDRESS=\"${GIT_ADDRESS}\"\nif [ -n \"${GIT_USERNAME}\" ] && [ -n \"${GIT_ACCESS_TOKEN}\" ]; then\n  ADDRESS=\"${GIT_ADDRESS/https:\\/\\//https://${GIT_USERNAME}:${GIT_ACCESS_TOKEN}@}\"\nfi\n\nif [ -z \"$(ls -A /mnt/server)\" ]; then\n  echo \"Cloning ${GIT_ADDRESS} (branch ${BRANCH}) ...\"\n  git clone --branch \"${BRANCH}\" \"${ADDRESS}\" .\nelse\n  echo \"Directory not empty - pulling latest changes ...\"\n  git pull\nfi\n\nif [ -f package.json ]; then\n  npm install --omit=dev\nfi\necho \"Installation finished.\"\n",
-            "container": "node:20-bookworm-slim",
-            "entrypoint": "bash"
-        }
+    {
+      "name": "Git Username",
+      "description": "Only for private repositories: GitHub username.",
+      "env_variable": "GIT_USERNAME",
+      "default_value": "",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "nullable|string|max:100",
+      "field_type": "text"
     },
-    "variables": [
-        {
-            "name": "Git Repo Address",
-            "description": "HTTPS address of the Git repository.",
-            "env_variable": "GIT_ADDRESS",
-            "default_value": "https://github.com/Mit-Zwei-T-Apps/Mit-Zwei-T-Party.git",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|string|max:200",
-            "field_type": "text"
-        },
-        {
-            "name": "Install Branch",
-            "description": "Branch to install and update from.",
-            "env_variable": "BRANCH",
-            "default_value": "main",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|string|max:50",
-            "field_type": "text"
-        },
-        {
-            "name": "Auto Update",
-            "description": "Pull the latest version from Git on every start (1 = yes, 0 = no).",
-            "env_variable": "AUTO_UPDATE",
-            "default_value": "1",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|boolean",
-            "field_type": "text"
-        },
-        {
-            "name": "Git Username",
-            "description": "Only for private repositories: GitHub username.",
-            "env_variable": "GIT_USERNAME",
-            "default_value": "",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "nullable|string|max:100",
-            "field_type": "text"
-        },
-        {
-            "name": "Git Access Token",
-            "description": "Only for private repositories: GitHub personal access token.",
-            "env_variable": "GIT_ACCESS_TOKEN",
-            "default_value": "",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "nullable|string|max:200",
-            "field_type": "text"
-        },
-        {
-            "name": "Public URL",
-            "description": "Public https address of the game, e.g. https://party.example.com - used in the QR code.",
-            "env_variable": "PUBLIC_URL",
-            "default_value": "",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "nullable|string|max:200",
-            "field_type": "text"
-        }
-    ]
+    {
+      "name": "Git Access Token",
+      "description": "Only for private repositories: GitHub personal access token.",
+      "env_variable": "GIT_ACCESS_TOKEN",
+      "default_value": "",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "nullable|string|max:200",
+      "field_type": "text"
+    },
+    {
+      "name": "Public URL",
+      "description": "Public https address of the game, e.g. https://party.example.com - used in the QR code.",
+      "env_variable": "PUBLIC_URL",
+      "default_value": "",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "nullable|string|max:200",
+      "field_type": "text"
+    },
+    {
+      "name": "Max players",
+      "description": "Maximum number of players per room (2-16).",
+      "env_variable": "MAX_PLAYERS",
+      "default_value": "12",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|integer|between:2,16",
+      "field_type": "text"
+    }
+  ]
 }

@@ -49,6 +49,8 @@ Without HTTPS, joining, rolling, tapping, reaction and tap-mode dancing still wo
    - **Auto Update**: `1` (a restart pulls the latest version)
    - **JS file**: `server.js`
    - **Custom environment variables**: `PUBLIC_URL=https://party.your-domain.com` (so the QR code contains the right address)
+   - Optional: `MAX_PLAYERS=12` (2–16, default 12)
+   - Players can edit their name/avatar in the lobby and leave at any time. If the host closes the page, all players are kicked after a short grace period (reload is fine).
 3. Start the server. Dependencies are installed from `package.json` on start.
 4. Put Nginx in front with HTTPS and **WebSocket forwarding** (set `proxy_pass` to your server's IP and allocated port):
 

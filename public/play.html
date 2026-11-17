@@ -10,6 +10,7 @@
 </head>
 <body class="phone">
 <div id="app">
+  <button id="btn-leave" class="leave hidden" data-i18n="p.leave">Leave</button>
 
   <div id="v-join" class="pview hidden">
     <div class="logo" style="font-size:2.1rem">Mit Zwei T Party</div>
@@ -24,6 +25,12 @@
     <div class="me" id="me-wait"></div>
     <div class="big" data-i18n="p.in"></div>
     <div class="hintp" data-i18n="p.soon"></div>
+    <button class="btn ghost" id="btn-edit" data-i18n="p.edit"></button>
+    <div id="edit-box" style="width:100%;display:none;flex-direction:column;gap:10px">
+      <input id="ed-name" class="field" maxlength="14" autocomplete="off">
+      <div class="avgrid" id="edgrid"></div>
+      <button class="btn bigbtn" id="btn-save" data-i18n="p.save"></button>
+    </div>
     <div style="width:100%">
       <div class="hintp" style="margin-bottom:6px" data-i18n="p.dancewith"></div>
       <div class="modes" id="modes">

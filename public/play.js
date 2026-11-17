@@ -53,6 +53,29 @@
   }
   socket.on('connect', () => { if (me) join(true); else show('join'); });
   socket.on('kicked', () => { me = null; localStorage.removeItem('pf-player'); show('join'); });
+  socket.on('closed', () => { stopRun(true); me = null; localStorage.removeItem('pf-player'); show('join'); $('join-err').textContent = T('p.closed'); });
+  // Verlassen
+  $('btn-leave').addEventListener('click', () => {
+    if (!confirm(T('p.leaveq'))) return;
+    stopRun(true); socket.emit('player:leave');
+    me = null; localStorage.removeItem('pf-player'); show('join');
+  });
+  // Name / Figur bearbeiten (nur in der Lobby)
+  let edAvatar = null;
+  $('btn-edit').addEventListener('click', () => {
+    const box = $('edit-box'); const open = box.style.display !== 'flex';
+    box.style.display = open ? 'flex' : 'none';
+    if (open) { const p = meP(); $('ed-name').value = p ? p.name : ''; edAvatar = p ? p.avatar : null; drawEd(); }
+  });
+  function drawEd() {
+    const taken = S ? S.players.filter((x) => !me || x.id !== me.playerId).map((x) => x.avatar) : [];
+    $('edgrid').innerHTML = PF.AVATARS.map((a) => '<button data-a="' + a + '"' + (taken.includes(a) ? ' disabled' : '') + (a === edAvatar ? ' class="sel"' : '') + '>' + a + '</button>').join('');
+  }
+  $('edgrid').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b || b.disabled) return; edAvatar = b.dataset.a; drawEd(); });
+  $('btn-save').addEventListener('click', () => {
+    const name = $('ed-name').value.trim(); if (name) localStorage.setItem('pf-name', name);
+    socket.emit('player:edit', { name: name, avatar: edAvatar }, () => { $('edit-box').style.display = 'none'; });
+  });
   let wake = null;
   function requestWake() { try { if (navigator.wakeLock) navigator.wakeLock.request('screen').then((w) => { wake = w; }).catch(() => {}); } catch (e) {} }
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && me) requestWake(); });
@@ -66,6 +89,7 @@
   function render() {
     if (!me || !S) return;
     const p = meP();
+    $('btn-leave').classList.toggle('hidden', !p);
     if (!p) { if (S.phase !== 'lobby') { me = null; localStorage.removeItem('pf-player'); } show('join'); return; }
     // belegte Avatare im Join-Screen sind hier irrelevant
     if (S.phase === 'lobby') { stopRun(true); show('wait'); $('me-wait').innerHTML = meCard(p); markModes(p.mode); }

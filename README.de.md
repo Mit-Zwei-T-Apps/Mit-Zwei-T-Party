@@ -43,6 +43,8 @@ Ohne HTTPS geht nur Beitreten, Würfeln, Tippen, Reaktion und der Tipp-Modus bei
 - **Am einfachsten mit dem mitgelieferten Egg:** `egg-mit-zwei-t-party.json` (liegt im Repo und an jedem GitHub-Release) im Panel unter *Admin → Nests → Import Egg* importieren, Server damit anlegen, Variablen ausfüllen, starten.
 - Alternativ mit dem generischen Node.js-Egg: Node.js ≥ 18, Startbefehl `node server.js`, Port aus der Panel-Allocation (`SERVER_PORT` wird automatisch erkannt, alternativ `PORT`).
 - `PUBLIC_URL=https://party.deine-domain.de` setzen, damit der QR-Code die richtige Adresse enthält.
+- Optional: `MAX_PLAYERS=12` (2–16, Standard 12) legt die maximale Spielerzahl fest.
+- Spieler können in der Lobby Name/Figur ändern und jederzeit verlassen. Schließt der Host die Seite, werden nach kurzer Gnadenfrist alle gekickt (Neuladen ist ok).
 - Nginx als Reverse Proxy mit HTTPS (z. B. Let's Encrypt) und **WebSocket-Weiterleitung**:
 
 ```nginx
