@@ -13,11 +13,12 @@
     <div class="logo" style="font-size:2.4rem">Mit Zwei T Party</div>
     <div class="hintp" data-i18n="tagline"></div>
     <a href="/host.html" style="width:100%;text-decoration:none"><button class="btn bigbtn" style="padding:22px;font-size:1.5rem"><span data-i18n="p.host"></span><br><small style="font-weight:600" data-i18n="p.hostsub"></small></button></a>
-    <a href="/play.html" style="width:100%;text-decoration:none"><button class="btn alt bigbtn" style="padding:22px;font-size:1.5rem"><span data-i18n="p.play"></span><br><small style="font-weight:600" data-i18n="p.playsub"></small></button></a>
-    <div class="hintp" style="margin-top:20px">Matteo Mit Zwei T, with Claude</div>
+    <a id="play" href="/play.html" style="width:100%;text-decoration:none"><button class="btn alt bigbtn" style="padding:22px;font-size:1.5rem"><span data-i18n="p.play"></span><br><small style="font-weight:600" data-i18n="p.playsub"></small></button></a>
+    <div class="hintp" style="margin-top:14px"><a id="l-en" href="/?lang=en">English</a> · <a id="l-de" href="/?lang=de">Deutsch</a></div>
+    <div class="hintp">Matteo Mit Zwei T, with Claude</div>
   </div>
 </div>
 <script src="/i18n.js"></script>
-<script>(function(){var l=new URLSearchParams(location.search).get("lang")||(/^de/i.test(navigator.language)?"de":"en");I18N.apply(document,l==="de"?"de":"en");})();</script>
+<script>(function(){var l=new URLSearchParams(location.search).get("lang")==="de"?"de":"en";I18N.apply(document,l);document.getElementById("play").href="/play.html?lang="+l;document.getElementById("l-"+l).style.fontWeight="900";})();</script>
 </body>
 </html>

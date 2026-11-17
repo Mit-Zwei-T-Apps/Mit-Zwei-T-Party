@@ -20,6 +20,10 @@ Original characters and songs – no Nintendo or Ubisoft content. English is the
 
 If the camera or the sensor is unavailable, the phone automatically falls back one step (camera → motion → tap).
 
+### Permissions
+Before every sing or dance minigame the phone shows its own pop-up asking for the microphone, camera or motion sensor, even if the browser remembered an earlier "Allow". Declining is fine: singing then scores 0 and dancing falls back to tap mode. Nothing is recorded or sent anywhere; the audio and video stay on the phone and are switched off after each minigame.
+A web page cannot force Chrome's own permission prompt. If you want Chrome itself to ask every time, choose "Allow this time" in the prompt (desktop) or set the site's Microphone/Camera to "Ask" in the site settings.
+
 ### Singing
 The phone microphone detects your pitch (autocorrelation, in the browser). Scoring is **octave-independent**, so singing an octave lower or higher is fine.
 Songs (all public domain, or original lyrics) – English: *Twinkle, Twinkle, Little Star*, *Mary Had a Little Lamb*, *Party Star*; German: *Alle meine Entchen*, *Hänschen klein*, *Party-Stern*. Only songs of the selected language are played.

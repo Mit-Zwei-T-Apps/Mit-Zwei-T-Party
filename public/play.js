@@ -128,19 +128,36 @@
     $('in-status').textContent = m.needReady ? T('p.st.tap') : T('p.st.soon');
     vib(60);
   }
-  $('btn-ready').addEventListener('click', async () => {
+  // Vor jedem Sing-/Tanz-Minispiel fragen wir selbst nach – unabhängig davon, ob sich der Browser die Erlaubnis gemerkt hat.
+  function askPerm(kind, onChoice) {
+    $('perm-t').textContent = T('p.perm.' + kind + '.t');
+    $('perm-d').textContent = T('p.perm.' + kind + '.d');
+    $('perm-yes').textContent = T('p.perm.allow');
+    $('perm-no').textContent = T('p.perm.deny');
+    $('perm').classList.remove('hidden');
+    // Die Sensor-Anfrage muss direkt im Klick-Handler starten (Handy-Browser verlangen eine Nutzer-Geste).
+    $('perm-yes').onclick = () => { $('perm').classList.add('hidden'); onChoice(true); };
+    $('perm-no').onclick = () => { $('perm').classList.add('hidden'); onChoice(false); };
+  }
+  $('btn-ready').addEventListener('click', () => {
+    const m = S && S.mini, p = meP(); if (!m || !p) return;
+    const kind = m.type === 'sing' ? 'mic' : m.type === 'dance' ? (p.mode === 'camera' ? 'cam' : p.mode === 'motion' ? 'motion' : null) : null;
+    if (!kind) doReady(true); else askPerm(kind, doReady);
+  });
+  async function doReady(allowed) {
     const m = S && S.mini, p = meP(); if (!m || !p) return;
     const b = $('btn-ready'); b.disabled = true; b.textContent = T('p.loading');
     let ok = true, mode = p.mode;
     try {
-      if (m.type === 'sing') await prepSing();
+      if (!allowed) { if (m.type === 'sing') ok = false; else if (m.type === 'dance') mode = 'tap'; }
+      else if (m.type === 'sing') await prepSing();
       else if (m.type === 'dance') mode = await prepDance(p.mode);
     } catch (e) { ok = false; console.warn(e); }
     prep = { type: m.type, ok: ok, mode: mode };
     socket.emit('mini:ready', { ok: ok, mode: mode });
     b.classList.add('hidden');
     $('in-status').textContent = ok ? T('p.st.ok') : (m.type === 'sing' ? T('p.st.nomic') : T('p.st.wait'));
-  });
+  }
 
   // ---- Sensor-Vorbereitung
   async function prepSing() {

@@ -20,6 +20,10 @@ Eigene Figuren, eigene Songs – keine Nintendo-/Ubisoft-Inhalte.
 
 Fällt Kamera oder Sensor aus, schaltet das Handy automatisch eine Stufe zurück (Kamera → Bewegung → Tippen).
 
+### Berechtigungen
+Vor jedem Sing- oder Tanz-Minispiel zeigt das Handy ein eigenes Pop-up für Mikrofon, Kamera oder Bewegungssensor – auch wenn sich der Browser ein früheres „Zulassen“ gemerkt hat. Ablehnen ist okay: Beim Singen gibt es dann 0 Punkte, beim Tanzen wechselt es in den Tipp-Modus. Nichts wird aufgenommen oder verschickt; Ton und Bild bleiben auf dem Handy und werden nach jedem Minispiel ausgeschaltet.
+Die Erlaubnis-Abfrage von Chrome selbst kann eine Webseite nicht erzwingen. Soll Chrome jedes Mal fragen: im Prompt „Diesmal zulassen“ wählen (Desktop) oder in den Website-Einstellungen Mikrofon/Kamera auf „Fragen“ stellen.
+
 ### Singen
 Das Handy-Mikro erkennt die Tonhöhe (Autokorrelation, im Browser). Gewertet wird **oktavunabhängig** – man kann also auch eine Oktave tiefer/höher singen.
 Songs (alle gemeinfrei bzw. mit eigenem Text) – Englisch: *Twinkle, Twinkle, Little Star*, *Mary Had a Little Lamb*, *Party Star*; Deutsch: *Alle meine Entchen*, *Hänschen klein*, *Party-Stern*. Es werden nur Songs der gewählten Sprache gespielt.
